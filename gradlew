@@ -56,23 +56,8 @@ case "`uname`" in
     ;;
 esac
 
-SCRIPT="$0"
-# Resolve links: $SCRIPT may be a link
-while [ -h "$SCRIPT" ] ; do
-  ls=`ls -ld "$SCRIPT"`
-  link=`expr "$ls" : '.*-> \(.*\)$'`
-  if expr "$link" : '/.*' > /dev/null; then
-    SCRIPT="$link"
-  else
-    SCRIPT=`dirname "$SCRIPT"`/"$link"
-  fi
-done
-SAVED="`pwd`"
-cd "`dirname \"$SCRIPT\"`/" >/dev/null
-APP_HOME="`pwd -P`"
-cd "$SAVED" >/dev/null
-
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
+
 
 # Determine the Java command to use to start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
@@ -123,6 +108,7 @@ if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
     CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
     JAVACMD=`cygpath --unix "$JAVACMD"`
 
+    # We build the pattern for arguments to be converted via cygpath
     ROOTDIRSRAW=`find -L / -maxdepth 1 -mindepth 1 -type d 2>/dev/null`
     SEP=""
     for dir in $ROOTDIRSRAW ; do
@@ -130,14 +116,17 @@ if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
         SEP="|"
     done
     OURCYGPATTERN="(^($ROOTDIRS))"
+    # Add a user-defined pattern to the cygpath arguments
     if [ "$GRADLE_CYGPATTERN" != "" ] ; then
         OURCYGPATTERN="$OURCYGPATTERN|($GRADLE_CYGPATTERN)"
     fi
+    # Now convert the arguments - kludge to limit ourselves to /bin/sh
     i=0
     for arg in "$@" ; do
         CHECK=`echo "$arg"|egrep -c "$OURCYGPATTERN" -`
-        CHECK2=`echo "$arg"|egrep -c "^-"`
-        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then
+        CHECK2=`echo "$arg"|egrep -c "^-"`                                 ### Determine if an option
+
+        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                    ### Added a condition
             eval `echo args$i`=`cygpath --path --ignore --mixed "$arg"`
         else
             eval `echo args$i`="\"$arg\""
@@ -158,13 +147,14 @@ if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
     esac
 fi
 
+# Escape application args
 save () {
     for i do printf %s\\n "$i" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/' \\\\/" ; done
     echo " "
 }
-
 APP_ARGS=`save "$@"`
 
+# Collect all arguments for the java command, following the shell quoting and substitution rules
 eval set -- $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS "\"-Dorg.gradle.appname=$APP_BASE_NAME\"" -classpath "\"$CLASSPATH\"" org.gradle.wrapper.GradleWrapperMain "$APP_ARGS"
 
 exec "$JAVACMD" "$@"
