@@ -60,7 +60,7 @@
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:textColor="@color/dark_gray"
-                        android:fontFamily="@font/roboto_medium" />
+                         />
 
                     <TextView
                         android:id="@+id/tv_selected_count"
@@ -119,7 +119,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/dark_gray"
                     android:padding="14dp"
-                    android:fontFamily="@font/roboto_medium" />
+                     />
 
                 <TextView
                     android:id="@+id/tv_timeline_empty"
@@ -168,7 +168,7 @@
                         android:paddingHorizontal="14dp"
                         android:paddingTop="14dp"
                         android:paddingBottom="8dp"
-                        android:fontFamily="@font/roboto_medium" />
+                         />
 
                     <!-- Left / Right row -->
                     <LinearLayout
@@ -316,7 +316,7 @@
                         android:paddingHorizontal="14dp"
                         android:paddingTop="14dp"
                         android:paddingBottom="8dp"
-                        android:fontFamily="@font/roboto_medium" />
+                         />
 
                     <ImageView
                         android:layout_width="56dp"
